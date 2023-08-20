@@ -1,0 +1,30 @@
+{
+  "name": "strapi-data-migrator",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": {
+    "strapi-generate-types": "./generate-types.js",
+    "strapi-dump-data": "./dump-data.js",
+    "strapi-import-data": "./import-data.js",
+    "strapi-generate-transformer": "./generate-transformer.js"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "change-case": "^4.1.2",
+    "glob": "^10.3.3",
+    "pluralize": "^8.0.0",
+    "toposort": "^2.0.2",
+    "ts-morph": "^19.0.0",
+    "typia": "^4.1.8",
+    "zx": "^7.2.3"
+  },
+  "peerDependencies": {
+    "strapi": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/pluralize": "^0.0.30",
+    "@types/toposort": "^2.0.3",
+    "strapi-database": "^3.6.11",
+    "typescript": "^5.1.6"
+  }
+}

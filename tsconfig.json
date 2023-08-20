@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "lib": ["esnext", "dom"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "plugins": [
+      { "transform": "typescript-is/lib/transform-inline/transformer" }
+    ],
+    "strict": true,
+    "target": "es2020"
+  },
+  "include": ["."],
+  "exclude": [
+    "cdk.out",
+    "**/*.d.ts"
+  ],
+  "ts-node": {
+    "compiler": "ttypescript"
+  }
+}
