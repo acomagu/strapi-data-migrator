@@ -1,12 +1,12 @@
 {
-  "name": "strapi-data-migrator",
-  "version": "0.0.1",
+  "name": "@acomagu/strapi-data-migrator",
+  "version": "0.0.2",
   "type": "module",
   "bin": {
-    "strapi-generate-types": "./generate-types.js",
-    "strapi-dump-data": "./dump-data.js",
-    "strapi-import-data": "./import-data.js",
-    "strapi-generate-transformer": "./generate-transformer.js"
+    "strapi-generate-types": "generate-types.js",
+    "strapi-dump-data": "dump-data.js",
+    "strapi-import-data": "import-data.js",
+    "strapi-generate-transformer": "generate-transformer.js"
   },
   "dependencies": {
     "chalk": "^5.3.0",

@@ -4,6 +4,8 @@ import { pascalCase } from 'change-case';
 import { models, components, AttributesSetting } from './strapi-settings.js';
 import { destroy } from './strapi.js';
 
+const isReadonly = process.argv.includes('--immutable-types');
+
 const project = new ts.Project();
 const sf = project.createSourceFile('models.ts', '', { overwrite: true });
 
@@ -16,7 +18,7 @@ for (const [name, modelSetting] of Object.entries(models)) {
       {
         name: modelSetting.primaryKey,
         type: 'number',
-        isReadonly: true,
+        isReadonly,
       },
       ...interfacePropertiesFromAttributesSetting(modelSetting.attributes),
     ],
@@ -31,7 +33,7 @@ sf.addTypeAlias({
 
 sf.addInterface({
   isExported: true,
-  properties: Object.entries(models).map(([name]) => ({ name: `'${name}'`, type: modelInterfaceName(name), isReadonly: true })),
+  properties: Object.entries(models).map(([name]) => ({ name: `'${name}'`, type: modelInterfaceName(name), isReadonly })),
   name: 'ModelByName',
 });
 
@@ -71,7 +73,7 @@ function interfacePropertiesFromAttributesSetting(attributes: AttributesSetting)
     const base = {
       name,
       hasQuestionToken: isOptional,
-      isReadonly: true,
+      isReadonly,
     } as const;
     const optionalTypeSuffix = isOptional ? ' | null' : '';
     if ('type' in attr) {
@@ -100,7 +102,7 @@ function interfacePropertiesFromAttributesSetting(attributes: AttributesSetting)
           return [{
             ...base,
             hasQuestionToken: attr.repeatable ? false : isOptional, // For repeatable component field, at least empty array is necessary.
-            type: attr.repeatable ? `readonly ${componentInterfaceName(attr.component)}[]` : (componentInterfaceName(attr.component) + optionalTypeSuffix),
+            type: attr.repeatable ? `${isReadonly ? 'readonly ' : ''}${componentInterfaceName(attr.component)}[]` : (componentInterfaceName(attr.component) + optionalTypeSuffix),
           }];
         case 'decimal':
           return [{ ...base, type: 'number' + optionalTypeSuffix }];
@@ -114,7 +116,7 @@ function interfacePropertiesFromAttributesSetting(attributes: AttributesSetting)
     }
     if ('collection' in attr) {
       // return [{ ...base, type: attr.collection === '*' ? 'any' : modelInterfaceName(attr.collection) + optionalTypeSuffix }];
-      return [{ ...base, type: 'readonly number[]' + optionalTypeSuffix }];
+      return [{ ...base, type: `${isReadonly ? 'readonly ' : ''}number[]` + optionalTypeSuffix }];
     }
     throw new Error(`Unknown attribute type: ${JSON.stringify(attr)}`);
   })
